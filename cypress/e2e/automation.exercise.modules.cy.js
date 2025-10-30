@@ -10,61 +10,73 @@ import { getRandomNumber, getRandomEmail } from '../support/helpers';
 
 import {faker} from '@faker-js/faker'
 
+import { Menu } from '../modules/menu'
+import { Login } from '../modules/login'
+import { Register } from '../modules/register'
+//import {toLogin} from '../modules/menu'
+//import {writeFormPreRegister} from '../modules/login'
+// import {writeRegister} from '../modules/register'
+
 describe('Automation Exercise', () => {
-    const timestamp = new Date().getTime()
+    beforeEach(() => {
+        cy.visit('https://automationexercise.com/')   
+        Menu.toLogin()
+    });
+    it('User Register', () => {
+        Login.writeFormPreRegister()
+        Register.writeCompleteRegister()
+    });
 
-    /* it('Log Examples', () => {
-        cy.log(`STEP 01 :: VIEW FIXTURES`)
-        cy.log(`User Name: ${userData.name}`)
-        cy.log(`User Email: ${userData.email}`)
-        
-        });
-    */ 
-    it('User register', () => {
-        // Arrange
-        // In the homepage
-        cy.visit('https://automationexercise.com/')
-        cy.get('a[href = "/login"]').click()
-        cy.get('[data-qa="signup-name"]').type('QA Tester')
-        cy.get('[data-qa="signup-email"]').type(`qa-tester-${timestamp}@test.com`)
-        cy.contains('button','Signup').click();
-
-        // In the signup page
-        cy.get('#id_gender1').check()
-        cy.get('input#password').type('12345', {log: false})
-        cy.get('select#days').select('22')
-        cy.get('select#months').select('12')
-        cy.get('select#years').select('1990')
-
-        cy.get('input[type=checkbox]#newsletter').check()
-        cy.get('input[type=checkbox]#optin').check()
-
-        cy.get('input#first_name').type(faker.person.firstName())
-        cy.get('input#last_name').type(faker.person.lastName())
-        cy.get('input#company').type(faker.company.name())
-        cy.get('input#address1').type(faker.location.streetAddress())
-        cy.get('input#address2').type(faker.location.secondaryAddress())
-        cy.get('select#country').select('Canada')
-        cy.get('input#state').type(faker.location.state())
-        cy.get('input#city').type(faker.location.city())
-        cy.get('input#zipcode').type(faker.location.countryCode())
-        cy.get('input#mobile_number').type('111 222 333')
-
-        //Act
-        cy.get('[data-qa="create-account"]').click()
-
-        //Assert
+    //Assert
         cy.url().should('includes','account_created')
         cy.contains('b','Account Created!')
         cy.get('h2[data-qa="account-created"]').should('have.text','Account Created!')
+})
+
+describe('Test Case 01: Login', () => {
+        it('Login Success with email and password', () => {
+        
+        Login.toLogin(userData.user, userData.password)
+
+        cy.get('[data-qa="login-button"]').click()
+
+        cy.get('i.fa-user').parent().should('contain', userData.name)
+        cy.get('a[href="/logout"]').should('be.visible')
     })
 
+    it('Login Invalid with email and password', () => {
+        
+        Login.toLogin(userData.user, '54321')
+        
+        cy.get('.login-form > form > p').should('contain','Your email or password is incorrect!')
+    })
+
+    it('Logout User', () => {
+
+        Login.toLogin(userData.user, userData.password)
+        Menu.doLogout()
+
+        cy.get('i.fa-user').parent().should('contain','QA Tester')
+        cy.get('a[href="/logout"]').should('be.visible').click()
+
+        cy.url().should('contain','login')
+    })
+
+    it('Register User with existing email', () => {
+        // Arrange
+        cy.get('[data-qa="signup-name"]').type('QA')
+        cy.get('[data-qa="signup-email"]').type('qa-tester-1761736049617@test.com')
+
+        cy.contains('button','Signup').click();
+
+        cy.get('.signup-form > form > p').should('contain','Email Address already exist!')
+    })
 })
 
 describe('Contact Us', () => {
     it('Sending form with attach file', () => {
         cy.visit('https://automationexercise.com/')
-        cy.get('a[href="/contact_us"]').click()
+        
         cy.get('[data-qa="name"]').type(`${userData.name}`)
         cy.get('[data-qa="email"]').type(`${userData.email}`)
         cy.get('[data-qa="subject"]').type(`${userData.subject}`)
