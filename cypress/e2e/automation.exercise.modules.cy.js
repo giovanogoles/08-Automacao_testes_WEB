@@ -25,14 +25,15 @@ describe('Automation Exercise', () => {
     it('User Register', () => {
         Login.writeFormPreRegister()
         Register.writeCompleteRegister()
-    });
+    
 
     //Assert
         cy.url().should('includes','account_created')
         cy.contains('b','Account Created!')
         cy.get('h2[data-qa="account-created"]').should('have.text','Account Created!')
-})
 
+    })
+});
 describe('Test Case 01: Login', () => {
         it('Login Success with email and password', () => {
         
