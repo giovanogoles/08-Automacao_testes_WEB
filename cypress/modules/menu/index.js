@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker"
-import { should } from "chai"
+
 class Menu {
     toLogin(){
         cy.visit('https://automationexercise.com/')
