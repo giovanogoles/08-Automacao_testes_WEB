@@ -1,8 +1,9 @@
 import { faker } from "@faker-js/faker"
+import { should } from "chai"
 class Menu {
     toLogin(){
         cy.visit('https://automationexercise.com/')
-        cy.get('a[href = "/login"]').click()
+        cy.get('a[href = "/login"]').should('be.visible').click()
     }
 
     doLogout(){
@@ -28,14 +29,13 @@ class Menu {
     getPayment(){
         cy.url().should('include', '/payment');
 
-        cy.get('[data-qa="name-on-card"]').type(faker.finance.accountName())
-        cy.get('[data-qa="card-number"]').type(faker.finance.creditCardNumber())
-        cy.get('[data-qa="cvc"]').type(faker.finance.creditCardCVV())
-        cy.get('[data-qa="expiry-month"]').type(faker.date.month())
-        cy.get('[data-qa="expiry-year"]').type('2035')
-        cy.get('[data-qa="pay-button"]').click()
+        cy.get('[data-qa="name-on-card"]').should('be.visible').type(faker.finance.accountName())
+        cy.get('[data-qa="card-number"]').should('be.visible').type(faker.finance.creditCardNumber())
+        cy.get('[data-qa="cvc"]').should('be.visible').type(faker.finance.creditCardCVV())
+        cy.get('[data-qa="expiry-month"]').should('be.visible').type(faker.date.month())
+        cy.get('[data-qa="expiry-year"]').should('be.visible').type('2035')
+        cy.get('[data-qa="pay-button"]').should('be.visible').click()
     }
-
 }
 
 export default new Menu()
