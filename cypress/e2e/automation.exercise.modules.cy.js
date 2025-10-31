@@ -25,9 +25,10 @@ import Footers from '../modules/Footer'
 // import {writeRegister} from '../modules/register'
 
 describe('Test Case 01', () => {
-   
     it('User Register', () => {
-        Menu.toLogin()
+        cy.visit('https://automationexercise.com/')
+        cy.get('a[href = "/login"]').should('be.visible').click()
+        
         Login.writeFormPreRegister()
         Register.writeCompleteRegister()
     
@@ -38,7 +39,6 @@ describe('Test Case 01', () => {
     })
 });
 describe('Test Case 02', () => {
-  
   it('Login Success with email and password', () => {
     Menu.toLogin()
 
