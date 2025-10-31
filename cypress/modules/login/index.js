@@ -1,7 +1,8 @@
 import { faker } from "@faker-js/faker"
+import {getRandomEmail}  from '../../support/helpers'
 
 class Login {
-    whiteFormPreRegister(){
+    writeFormPreRegister(){
         const firstName = faker.person.firstName()
         const lastName = faker.person.lastName()
             
