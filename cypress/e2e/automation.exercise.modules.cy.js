@@ -4,31 +4,25 @@
 
 /// <reference types = "cypress"/>
 
-
 import data from '../fixtures/example.json'
 const userData = data.userData
 const contact = data.contact
-
 
 import { getRandomNumber, getRandomEmail } from '../support/helpers';
 
 import {faker} from '@faker-js/faker'
 
-import Menu from '../modules/menu'
+import Menu from '../modules/menus'
 import Login from '../modules/login'
 import Register from '../modules/register'
 import Contact from '../modules/contact'
 import Footers from '../modules/Footer'
 
-//import {toLogin} from '../modules/menu'
-//import {writeFormPreRegister} from '../modules/login'
-// import {writeRegister} from '../modules/register'
-
 describe('Test Case 01', () => {
     it('User Register', () => {
         cy.visit('https://automationexercise.com/')
         cy.get('a[href = "/login"]').should('be.visible').click()
-        
+
         Login.writeFormPreRegister()
         Register.writeCompleteRegister()
     
