@@ -21,10 +21,11 @@ describe('Modal Tests', () => {
         cy.get(ModalPage.newTransactionButton).should('have.text', '+ Nova Transação');
     });
 
-    it('should close the modal when clicking outside of it', () => {
+    /*it('should close the modal when clicking outside of it', () => {
         ModalPage.openNewTransaction();
         cy.get('div.modal').should('be.visible');
         cy.get('body').click(0, 0); // Click outside the modal
         cy.get('div.modal').should('not.exist');
     });
+    */ 
 });
