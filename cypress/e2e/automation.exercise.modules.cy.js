@@ -25,10 +25,12 @@ import Footers from '../modules/Footer'
 // import {writeRegister} from '../modules/register'
 
 describe('Test Case 01', () => {
-    beforeEach(() => {
+    /* beforeEach(() => {
         Menu.toLogin()
     });
+    */
     it('User Register', () => {
+        Menu.toLogin()
         Login.writeFormPreRegister()
         Register.writeCompleteRegister()
     
